@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Heart Animation with Song for Dru</title>
+  <style>
+    body {
+      background-color: #f5f5f5;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      max-width: 600px;
+      text-align: center;
+      padding: 20px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .heart {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      position: relative;
+      transform: rotate(45deg);
+      animation: pulse 1.2s infinite;
+      margin: 0 auto;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+
+    .heart::before {
+      border-radius: 50%;
+      top: -50px;
+      left: 0;
+    }
+
+    .heart::after {
+      border-radius: 50%;
+      top: 0;
+      left: 50px;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    h1 {
+      color: #ff4081;
+      font-size: 28px;
+      margin-top: 20px;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .lyrics {
+      color: #333;
+      font-size: 18px;
+      line-height: 1.5;
+      margin-top: 20px;
+      height: 300px;
+      overflow-y: scroll;
+      text-align: left;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .song-container {
+      margin-top: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .play-button {
+      width: 60px;
+      height: 60px;
+      background-color: #ff4081;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .play-button:hover {
+      background-color: #d81b60;
+    }
+
+    .play-button-icon {
+      width: 40px;
+      height: 40px;
+      fill: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="heart"></div>
+    <h1 class="blink">Dru</h1>
+    <div class="lyrics">
+      <p>Verse 1</p>
+      <p>Dru, you're the light in my life,</p>
+      <p>With you, everything feels so right.</p>
+      <p>Your smile shines brighter than the sun,</p>
+      <p>In your arms, I know I've found the one.</p>
+      <br>
+      <p>Chorus:</p>
+      <p>Oh Dru, you're my world, my guiding star,</p>
+      <p>Forever and always, no matter how far.</p>
+      <p>You've captured my heart, you're all I adore,</p>
+      <p>In this song, I'll love you even more.</p>
+      <br>
+      <p>Verse 2:</p>
+      <p>Every moment spent with you is pure bliss,</p>
+      <p>Your laughter fills my days with eternal bliss.</p>
+      <p>Through ups and downs, our love will remain,</p>
+      <p>Together, we'll conquer any pain.</p>
+      <br>
+      <p>Chorus:</p>
+      <p>Oh Dru, you're my world, my guiding star,</p>
+      <p>Forever and always, no matter how far.</p>
+      <p>You've captured my heart, you're all I adore,</p>
+      <p>In this song, I'll love you even more.</p>
+      <br>
+      <p>Bridge:</p>
+      <p>In your eyes, I see a love so true,</p>
+      <p>With you by my side, I can conquer and pursue.</p>
+      <p>You're my inspiration, my strength, my muse,</p>
+      <p>With you, there's nothing I can't do.</p>
+      <br>
+      <p>Chorus:</p>
+      <p>Oh Dru, you're my world, my guiding star,</p>
+      <p>Forever and always, no matter how far.</p>
+      <p>You've captured my heart, you're all I adore,</p>
+      <p>In this song, I'll love you even more.</p>
+      <br>
+      <p>Outro:</p>
+      <p>So Dru, this song is just for you,</p>
+      <p>To express my love, forever true.</p>
+      <p>You're the melody in every beat,</p>
+      <p>With you, my love story is complete.</p>
+    </div>
+    <div class="song-container">
+      <div class="play-button" onclick="playSong()">
+        <svg class="play-button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+          <path d="M0 0h24v24H0z" fill="none"/>
+        </svg>
+      </div>
+    </div>
+    <audio id="audio" src="back.mp3" preload="auto" loop></audio>
+  </div>
+
+  <script>
+    function playSong() {
+      // Cancel any ongoing speech synthesis
+      speechSynthesis.cancel();
+
+      const lyrics = document.querySelector('.lyrics').innerText;
+      const voiceRate = 0.8; // Adjust the rate to make the voice slower or faster
+
+      // Create a new SpeechSynthesisUtterance object
+      const utterance= new SpeechSynthesisUtterance();
+      utterance.text = lyrics;
+      utterance.rate = voiceRate;
+
+      // Set the voice (optional)
+      utterance.voice = speechSynthesis.getVoices()[0]; // Change the index if you want a different voice
+
+      // Speak the lyrics
+      speechSynthesis.speak(utterance);
+
+      // Play background music
+      const audio = document.getElementById('audio');
+      audio.play();
+    }
+  </script>
+</body>
+</html>
